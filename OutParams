@@ -1,0 +1,15 @@
+The name of this file is : OutParams 
+Input is from            : InputParams 
+nx 512
+dx 1.000000
+dt 0.125000
+num_steps 5000000
+A   0.10   B   1.00   P   6.00
+C_alpha = 0.500000
+C_beta1 = 0.100000
+C_beta2 = 0.900000
+kappa_c 1.000000	 kappa_phi 1.000000
+mobility 1.000000	 relax_coeff 0.000001
+initflag 0
+initcount 0
+fftw_flag 1
