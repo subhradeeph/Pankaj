@@ -110,7 +110,6 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
      rhse = rphi - relax_coeff * dt * fpphi;
      rphi_new = rhse / lhse;
      phi[i][Re] = rphi_new;
-     dfdphi[i][Re] = phi[i][Re];
 
      //printf("%lf\n", dfdphi[i][Re]);
      rphi = phi[i][Im];
@@ -119,7 +118,6 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
      rphi_new = rhse / lhse;
      phi[i][Im] = rphi_new;
 
-     dfdphi[i][Im] = phi[i][Im];
   }
 
 
