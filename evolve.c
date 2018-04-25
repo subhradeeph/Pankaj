@@ -131,17 +131,17 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
     }
     
     fftw_execute_dft(p_dn, dfdc, dfdc);
-    fftw_execute_dft(p_dn, dfdphi, dfdphi);
+    fftw_execute_dft(p_dn, phi, phi);
 
     for (int i = 0; i < nx; i++) {
       dfdc[i][Re] *= one_by_nx;
       dfdc[i][Im] *= one_by_nx;
 
-      dfdphi[i][Re] *= one_by_nx;
-      dfdphi[i][Im] *= one_by_nx;
+      phi[i][Re] *= one_by_nx;
+      phi[i][Im] *= one_by_nx;
      
-      sum1 += dfdphi[i][Re];
-      sum2 += dfdphi[i][Im];
+      sum1 += phi[i][Re];
+      sum2 += phi[i][Im];
     }
 
   meanPhi1 = sum1 * one_by_nx;
@@ -149,8 +149,11 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
  // printf("meanPhi1 = %le\n", meanPhi1);
 
   for (int i=0; i< nx; i++){
-      dfdphi[i][Re] -= meanPhi1;
-      dfdphi[i][Im] -= meanPhi2;
+      phi[i][Re] -= meanPhi1;
+      phi[i][Im] -= meanPhi2;
+
+      dfdphi[i][Re] = phi[i][Re];
+      dfdphi[i][Im] = phi[i][Im];
   }
 
 //Check for bounds 

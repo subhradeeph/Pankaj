@@ -4,7 +4,7 @@ dt 0.125
 num_steps 5000000 
 print_steps 400000
 R 200.0 
-A 0.1 B 1.0 chi 0.75 P 6.0
+A 0.1 B 1.0 chi 0.0 P 6.0
 c_alpha 0.5 c_beta1 0.1 c_beta2 0.9
 kappa_c 1.0 
 kappa_phi 1.0 
