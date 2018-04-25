@@ -33,7 +33,6 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
   loop_condition = 1;
   
   fftw_execute_dft(p_up, comp, comp);
-  fftw_execute_dft(p_up, phi, phi);
   
   alloycomp = comp[0][Re] * one_by_nx;
 
@@ -74,6 +73,8 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
       dfdphi[i][Im] = 0.0;	// this dfdphi is derivative of f wrt phi
    }
    
+   
+   fftw_execute_dft(p_up, phi, phi);
    fftw_execute_dft(p_up, dfdc, dfdc);
    fftw_execute_dft(p_up, dfdphi, dfdphi);
    

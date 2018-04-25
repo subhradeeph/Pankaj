@@ -1,3 +1,7 @@
 *.o
 LICENSE
 README.md
+prof_gp*
+conf*
+SpinDe
+*FEDensity
