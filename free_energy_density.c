@@ -4,6 +4,7 @@ void Free_Energy_Density(int steps){
 
 	double hphi1;
         double f[nx];
+        double junk;
 
   for(int i=0; i<nx; i++){
     hphi1 = dfdphi[i][Re] * dfdphi[i][Re] * dfdphi[i][Re] * (10.0 - 15.0 * dfdphi[i][Re] + 6.0 * dfdphi[i][Re] *dfdphi[i][Re]);
