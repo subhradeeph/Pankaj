@@ -1,4 +1,26 @@
+# Latex intermediates
+*log
+*aux
+*dvi
+*lof
+*lot
+*bit
+*idx
+*glo
+*bbl
+*bcf
+*ilg
+*toc
+*ind
+*out
+*blg
+*fdb_latexmk
+*fls
+*pdf
+
+# Object file
 *.o
+
 LICENSE
 README.md
 prof_gp*
