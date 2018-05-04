@@ -4,7 +4,7 @@ void Interfacial_energy(double *hphi)
 {
 	G_bar = 0.0;
 	G = 0.0;
-        double f[nx];
+  double f[nx];
 	unsigned FLAG;
 
 	double cprime[nx], phiprime[nx];
@@ -13,7 +13,7 @@ void Interfacial_energy(double *hphi)
 	double tempreal[nx], tempreal_phi[nx];
 	for (int j = 0; j < nx; j++) {
 		tempreal[j] = dfdc[j][Re];
-		tempreal_phi[j] = dfdphi[j][Re];
+		tempreal_phi[j] = phi[j][Re];
 	}
 /*FILE *Q;
 Q = fopen("tempreal","w");

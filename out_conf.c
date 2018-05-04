@@ -15,7 +15,7 @@ void Output_Conf (int steps)
  fpt = fopen (fn, "w");
 
 for (int i = 0; i < nx; i++) {
-	 fprintf(fpt,"%d\t%le\t%le\n", i, dfdc[i][Re], dfdphi[i][Re]);
+	 fprintf(fpt,"%d\t%le\t%le\n", i, dfdc[i][Re], phi[i][Re]);
 	}
   fprintf(fpt,"\n");
  

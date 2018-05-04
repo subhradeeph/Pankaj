@@ -10,7 +10,9 @@ void Init_Conf()
   sum = 0.0;
 /* Phi profile */
   for (int i = 0; i < nx; i++){
-     if(fabs((i - nx/2)*dx) <= R*dx){
+//     if(fabs((i - nx/2)*dx) <= R * dx){
+//     if(abs(i - nx_half) <= nx/4){
+    if (i > nx/4 && i <= 3*nx/4){ 
 	// printf("i=%d\n",i);
 	phi[i][Re] = 1.0;
      } else {
