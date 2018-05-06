@@ -93,7 +93,7 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
     
      kpow2 = kx * kx;
      kpow4 = kpow2 * kpow2;
-     
+//Cahn-Hilliard solution in Fourier space     
      lhs = 1.0 + 2.0 * mobility * kappa_c * kpow4 * dt;
 // Real part of CH     
      rc = comp[i][Re];
@@ -117,12 +117,14 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
 // Allen-Cahn solution in the Fourier space
      lhse = 1.0 + 2.0 * relax_coeff * kappa_phi * kpow2 * dt;
 
+//Real part of AC
      rphi = phi[i][Re];
      fpphi = dfdphi[i][Re];
      rhse = rphi - relax_coeff * dt * fpphi;
      rphi_new = rhse / lhse;
      phi[i][Re] = rphi_new;
 
+//Imaginary part of AC
      //printf("%lf\n", dfdphi[i][Re]);
      rphi = phi[i][Im];
      fpphi = dfdphi[i][Im];
@@ -132,7 +134,6 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
 
   }
 
-
 //Check for conservation of mass
     total = dfdc[0][Re] * one_by_nx;
     err = fabs(total - alloycomp);
@@ -141,9 +142,11 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
        printf("error=%lf\n", err);
        exit(0);
     }
+
 // Take dfdc and phi to the real space using inverse FFT   
     fftw_execute_dft(p_dn, dfdc, dfdc);
     fftw_execute_dft(p_dn, phi, phi);
+
 // Normalization for IFFT
    sum1 = 0.0;
     for (int i = 0; i < nx; i++) {
@@ -157,7 +160,7 @@ void Evolve(double *hphi)//, fftw_complex *dfdc, fftw_complex *dfdphi)
     }
 
   meanPhi1 = sum1 * one_by_nx;
-  printf("mean phi = %le\n",meanPhi1);
+//  printf("mean phi = %le\n",meanPhi1);
 
 //  for (int i=0; i< nx; i++)
 //      phi[i][Re] -= meanPhi1;

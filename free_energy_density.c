@@ -15,9 +15,10 @@ void Free_Energy_Density(int steps){
 	+ (1.0 - chi * dfdc[i][Re]) * P * phi[i][Re] * phi[i][Re] * (1.0 - phi[i][Re]) *  (1.0 - phi[i][Re]);
   }
   
-  sprintf(fn, "With_Constraint_FEDensity.%06d", steps);
+/*  sprintf(fn, "With_Constraint_FEDensity.%06d", steps);
   q = fopen(fn, "w");
   for(int i=0; i<nx; i++)
      fprintf(q,"%le\n", f[i]);
   fclose(q);
+  */
 }

@@ -8,7 +8,7 @@ A   0.10   B   1.00   P   6.00
 C_alpha = 0.500000
 C_beta1 = 0.100000
 C_beta2 = 0.900000
-kappa_c 1.000000	 kappa_phi 1.000000
+kappa_c 1.000000	 kappa_phi 0.010000
 mobility 1.000000	 relax_coeff 1.000000
 initflag 0
 initcount 0
