@@ -15,21 +15,25 @@
 %\usepackage{tabto}
 
 \begin{document}
-\section{Cahn-Hilliard Equation with Source Term}
+\section{Model System}
+Model consists of a circular particle embedded in a larger rectangular domain. This type of configuartion is chosen so that periodic boundary condition can be applied over the entire domain. Therefore, we can make use of Fourier Spectral techniques in order to solve concerned non-linear partial differential equations that govern the system. Such embedded techniques allow any type of boundary condition to be applied over the surface of the domain of interest. \\
+
 Bulk free energy density:
 \begin{gather}\label{bfe}
-  f(c,\phi) = A(c-0.5)^2(1-h_{\phi}) + B(c-0.1)^2(c-0.9)^2h_{\phi} + (1-\chi)P g_{\phi} \\
+  f(c,\phi) = A(c-0.5)^2(1-h_{\phi}) + B(c-0.1)^2(c-0.9)^2h_{\phi} + (1-\chi c)P g_{\phi} \\
   where, h_{\phi} = \phi^3 (10-15\phi + 6\phi^2), \nonumber \\
   g_{\phi} = \phi^2(1-\phi)^2 \nonumber 
 \end{gather}
-Cahn-Hilliard equation with a source term at the surface is written as:
+\section{Cahn-Hilliard(CH) Equation and its discretization}
+
+CH equation is written as:
 \begin{equation}\label{CHS}
   \begin{gathered}
-    \frac{\partial c}{\partial t} = M \triangledown^2 \mu + S \phi (1-\phi) \\
-    \frac{\partial c}{\partial t} = M \triangledown^2 \Big \{ \frac{\partial f}{\partial c} - 2 \kappa_c \triangledown^2 c\Big\} + S \phi (1-\phi)  
+    \frac{\partial c}{\partial t} = M \triangledown^2 \mu  \\
+    \frac{\partial c}{\partial t} = M \triangledown^2 \Big \{ \frac{\partial f}{\partial c} - 2 \kappa_c \triangledown^2 c\Big\} 
   \end{gathered}
 \end{equation}
-Apply Foruier Spectral Method to discretize spatial derivative of Cahn-Hilliard equation. The general relationship for it in Fourier space is given as
+Apply Foruier Spectral Method to discretize spatial derivative of CH equation. The general relationship for it in Fourier space is given as
 \begin{align} \label{sp_der}
   &\frac{\partial^n u}{\partial x^n} = ((\sqrt{-1})k)^n \{u\}_k \\
   &where, \text{\textit{k} is the coefficient \textit{k}th Fourier mode}. \nonumber
@@ -37,84 +41,32 @@ Apply Foruier Spectral Method to discretize spatial derivative of Cahn-Hilliard 
 By taking forward difference for time derivative and utilizing Eq. \eqref{sp_der}, discretized form of Eq. \eqref{CHS} is written as:
 \begin{subequations}\label{eq:subeq}
 \begin{align}
-  \frac{\tilde{c}^{t+\triangle t} - \tilde{c}^t}{dt} = -M \textit{k}^2 \tilde{\frac{\partial f}{\partial c}}^t - 2M\kappa_c        \textit{k}^4 \tilde{c}^{t + \triangle t} + S \tilde{\phi}^t(1- \tilde{\phi})^t \label{eq:subeq1}
+  \frac{\tilde{c}^{t+\triangle t} - \tilde{c}^t}{dt} = -M \textit{k}^2 \tilde{\frac{\partial f}{\partial c}}^t - 2M\kappa_c        \textit{k}^4 \tilde{c}^{t + \triangle t}  \label{eq:subeq1}
 \intertext{Rearrange} 
-\tilde{c}^{t+\triangle t} = \frac{-M \textit{k}^2 \tilde{\frac{\partial f}{\partial c}}^t + S \tilde{\phi}^t(1- \tilde{\phi})^t}{1 + 2M dt\kappa_c  \textit{k}^4}\label{eq:subeq2}
+\tilde{c}^{t+\triangle t} = \frac{\tilde{c}^t-M \textit{k}^2 dt \tilde{\frac{\partial f}{\partial c}}^t }{1 + 2M dt\kappa_c  \textit{k}^4}\label{eq:subeq2}
 \end{align}
 \end{subequations}
-Eq. \eqref{eq:subeq2} is the final discritized form of Cahn-Hilliard equation with a source term.
+Eq. \eqref{eq:subeq2} is the final discritized form of Cahn-Hilliard equation.
 
-\section{Cahn-Hilliard Equation with Surface Flux}
-Rewite the Cahn-Hilliard equation without the source term.
-\begin{equation}\label{CH}
-\frac{\partial c}{\partial t} = M \triangledown^2 \Big \{ \frac{\partial f}{\partial c} - 2 \kappa_c \triangledown^2 c\Big\}
+\section{Allen-Cahn(AC) Equation and its discretization}
+
+AC equation is written as:
+\begin{equation}\label{AC1}
+  \begin{gathered}
+    \frac{\partial \phi}{\partial t} = -L \frac{\delta f}{\delta c}  \\
+    \frac{\partial \phi}{\partial t} = -L\Big \{ \frac{\partial f}{\partial \phi} - 2 \kappa_\phi \triangledown^2 \phi\Big\} 
+  \end{gathered}
 \end{equation}
-Further, dividing \eqref{CH} into two separate equations.
-\begin{subequations}\label{eq:subeqn}
-   \begin{align}
-   \frac{\partial c}{\partial t} - M\triangledown^2 \mu = 0  \label{eq:subeqn1} \\
-   \mu - \frac{\partial f}{\partial c} + \kappa  \triangledown^2  c = 0 \label{eq:subeqn2}
-   \end{align}
-\end{subequations}
-Let $\eta$ and $\epsilon$ be the test functions for c and $\mu$ respectively and integrate Eq. \eqref{eq:subeqn1} and Eq. \eqref{eq:subeqn2}.
-
-\begin{subequations}\label{eq:subeqnn}
-   \begin{align}
-     \int_{V} \left\{ \eta \left( \frac{\partial c}{\partial t} - M\triangledown^2 \mu \right)  \right\} dV = 0 \label{eq:subeqnn1} \\
-     \int_{V} \left\{\epsilon \left( \mu - \frac{\partial f}{\partial c} + \kappa  \triangledown^2  c \right) \right\}dV = 0
-     \label{eq:subeqnn2}
-   \end{align}
-\end{subequations}
-
-Integrate by parts Eq. \eqref{eq:subeqnn1} and we get,
+Apply Foruier Spectral Method to discretize spatial derivative of AC equation. Discretized form of Eq. \eqref{AC1} is written as:
+\begin{subequations}\label{eq:subeq}
 \begin{align}
-\int_{V} \eta \frac{\partial c}{\partial t} dV + \int_{V} M \triangledown \eta . \triangledown \mu dV + \eta (-M \triangledown \mu) = 0
+  \frac{\tilde{\phi}^{t+\triangle t} - \tilde{\phi}^t}{dt} = -L \tilde{\frac{\partial f}{\partial \phi}}^t - 2L \kappa_\phi        \textit{k}^2 \tilde{\phi}^{t + \triangle t}  \label{eq:subeq1}
+\intertext{Rearrange} 
+\tilde{\phi}^{t+\triangle t} = \frac{\tilde{\phi}^t- L  dt \tilde{\frac{\partial f}{\partial \phi}}^t }{1 + 2L dt \kappa_\phi  \textit{k}^2}\label{eq:subeq2}
 \end{align}
-NBC: $M \triangledown \mu \equiv Q_1$ \\
-EBC: c $\equiv Q_2 $ \\
-Integrate Eq. \eqref{eq:subeqnn2} by parts
-\begin{equation}
-\int_{V} \epsilon \mu dV - \int_{V} \epsilon \frac{\partial f}{\partial c} dV - \int_{V} \kappa \triangledown \epsilon . \triangledown c dV +  \epsilon \left( \kappa \triangledown c \right)= 0
-\end{equation}
-NBC: $\kappa \triangledown c \equiv Q_3$ \\
-EBC: $\mu \equiv Q_4 $ \\
-So, Boundary conditions for our case can be taken as:\\
-\begin{equation} \label{BC1}
-\hat{n}	.(\kappa \triangledown c) = 0
-\end{equation}
-\begin{equation}\label{BC2}
-\hat{n}.J = - R(x,c,\mu)
-\end{equation}
-\qquad where R is net reaction rate.\\
-From Singh, Ceder and Bazant paper, R is equal to the difference of net insertion rate minus net exertion rate.\\
-For our model, $R = R_{ins}$ and it is given by:
-\begin{equation}\label{Rins}
-R_{ins} = k_{ins}c_e exp\Big\{(\mu_e-\mu)/(\rho k_BT)\Big\}
-\end{equation}
-where, $\mu_e$ is the external chemical potential in a reservoir phase outside of the particle (eg, $Li^+$ in the electrolyte of $Li^+$ battery).\\
-We know,
-\begin{gather} 
-\mu = \frac{\delta F}{\delta c} \\ 
-\text{where}, F = f(c,\phi) - \frac{1}{2} \kappa_c (\triangledown c)^2 - \frac{1}{2} \kappa_{\phi} (\triangledown \phi)^2 \nonumber
-\end{gather}
-Utilizing \eqref{bfe} $\mu$ becomes
-\begin{gather}\label{mu}
-\mu = 2A(c-0.5)\hat{h_\phi} + 2B(c-0.1)(c-0.9)(2c-1)h_\phi - \chi P g_\phi - \kappa_c \triangledown^2c -\kappa_{\phi} \triangledown^2 \phi
-\end{gather}
-Substitue Eq. \eqref{mu} in \eqref{Rins}\\
-Let $\beta = \frac{1}{ k_B T}$
-\begin{equation}
-\begin{multlined}
-R = R_{ins} = k_{ins}exp \Big \{ \Big [ \mu_e - \Big( 2A(c-0.5)\hat{h_\phi} \\
-    + 2B(c-0.1)(c-0.9)(2c-1) h_\phi -\chi P g_\phi - \kappa_c \triangledown^2 c - \kappa_{\phi} \triangledown^2 \phi \Big) \Big ]/  k_B T \Big \} \nonumber \\
-    \end{multlined}
-\end{equation}
-\begin{equation}
-R = k_{ins}exp\Big \{ \beta ( \mu_e - 2A(c-0.5)\hat{h_\phi} -2B(c-0.1)(c-0.9)(2c-1)h_\phi - \chi P g_\phi ) \Big \} exp\Big \{ \beta \kappa_c \triangledown^2c \Big\} exp\Big \{ \beta \kappa_{\phi} \triangledown^2 \phi \Big\} \nonumber
-\end{equation}
-\begin{gather}\label{final}
-R = \bar{R} exp\Big \{ \beta \kappa_c \triangledown^2c \Big\} exp\Big \{ \beta \kappa_{\phi} \triangledown^2 \phi \Big\} \\
-\text{where,} \bar{R} = exp\Big \{ \beta ( \mu_e - 2A(c-0.5)\hat{h_\phi} -2B(c-0.1)(c-0.9)(2c-1)h_\phi - \chi P g_\phi ) \Big \} \nonumber 
-\end{gather}
-Eq \eqref{CH} together with two natural boundary conditions \eqref{BC1}, \eqref{BC2} and \eqref{final} are the final form of equations. 
+\end{subequations}
+Eq. \eqref{eq:subeq2} is the final discritized form of Allen-Cahn equation.
+
+\section{Input Parameters}
+nx = 512, dx = 1.0, dt = 0.001, R = 128, A = 0.1, B = 1.0, chi = 0.0, P = 6.0, $\kappa_c = 1.0$, $\kappa_\phi = 1.0$, mobility = 1.0, relaxation coefficient = 1.0, FFTW plan use = FFTW-MEASURE 
 \end{document}
